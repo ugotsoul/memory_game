@@ -31,6 +31,10 @@ $(document).ready(function() {
 	var clickCounter = 0;
 	var matchedCounter = 0;
 
+	console.log('clickCounter');
+	console.log(clickCounter);
+
+
 	$('.card').click( function() {
 		clickCounter++;
 		
@@ -45,9 +49,6 @@ $(document).ready(function() {
 			var next_color = newcolors[next_index-1];
 
 			$(this).css('background-color', next_color);
-
-			console.log($(this).attr("id"));
-			console.log(openedCard.attr("id"));
 			
 			console.log("comparing this to opened card"); 
 			console.log(openedCard.css("backgroundColor"),$(this).css("backgroundColor"));
@@ -59,24 +60,14 @@ $(document).ready(function() {
 				openedCard.off('click');
 				openedCard = null;
 				matchedCounter++
-
-				//what is my win state?
-				// If player matches all cards (score keeping if n/2 where n is the length of the array), print a nice message.
-
-
-			// 	// if clickCounter == newcolors.length {
-			// 	// 	alert('You Win!');
-			// 	// }
-
-			// 	//calculate the # of movies that matched cards
-			// 	//counter of right cards matched - n=board size, n/2
 			}
 			else
 			{
 				// cards don't match, reset $(this) css and openedCard css
-				// make it fade out pretty-like
-				$(this).css('background-color', 'grey');
-				openedCard.css('background-color', 'grey');
+				// make it fade out pretty-like using jquery-ui.min.js
+				$(this).animate( {backgroundColor: "#808080"}, 1000)
+				openedCard.animate( {backgroundColor: "#808080"}, 1000)
+
 				openedCard = null;
 			}
 		}
@@ -89,6 +80,21 @@ $(document).ready(function() {
 
 			openedCard = $(this).css('background-color', new_color);
 			console.log("clicked my first card");
+
+			console.log(matchedCounter);
+			console.log(clickCounter);
+
+			if (matchedCounter == (newcolors.length/2)) {
+	 			$('#title').html('You win! Yay!')
+	 			//
+	 			$('.card').off('click');
+	 			}
+
+			if (clickCounter >= newcolors.length+5) {
+				$('#title').html('You lose. Haha!')
+				$('.card').css('background-color', 'black');
+				$('.card').off('click');
+			}
 		}
 
 
