@@ -31,20 +31,16 @@ $(document).ready(function() {
 	var clickCounter = 0;
 	var matchedCounter = 0;
 
-	console.log('clickCounter');
-	console.log(clickCounter);
-
+	console.log(newcolors);
 
 	$('.card').click( function() {
 		clickCounter++;
-		
+
 		// logic: check if card 1 == card 2
 
 		if (openedCard != null)
 
 		{
-			//you know a card has been clicked
-
 			var next_index = $(this).attr("id");
 			var next_color = newcolors[next_index-1];
 
@@ -59,12 +55,21 @@ $(document).ready(function() {
 				$(this).off('click');
 				openedCard.off('click');
 				openedCard = null;
-				matchedCounter++
+				matchedCounter++;
+				
+				if (matchedCounter == (newcolors.length/2)) {
+				$('#title').html('You win! Yay!');
+			
+				// Make this loop through newcolors
+
+				for (n = 0; n < newcolors.length; n++){
+				$('.card').animate({backgroundColor: newcolors[n]}, 100);}
+
+				$('.card').off('click');} 
 			}
 			else
 			{
 				// cards don't match, reset $(this) css and openedCard css
-				// make it fade out pretty-like using jquery-ui.min.js
 				$(this).animate( {backgroundColor: "#808080"}, 1000)
 				openedCard.animate( {backgroundColor: "#808080"}, 1000)
 
@@ -74,34 +79,19 @@ $(document).ready(function() {
 
 		else
 		{
-
 			var click_index = $(this).attr("id");
 			var new_color = newcolors[click_index-1];
 
 			openedCard = $(this).css('background-color', new_color);
-			console.log("clicked my first card");
-
-			console.log(matchedCounter);
-			console.log(clickCounter);
-
-			if (matchedCounter == (newcolors.length/2)) {
-	 			$('#title').html('You win! Yay!')
-	 			//
-	 			$('.card').off('click');
-	 			}
 
 			if (clickCounter >= newcolors.length+5) {
-				$('#title').html('You lose. Haha!')
+				$('#title').html('You lose. Haha!');
+				$('#board').html('<img src="/static/end.gif" style="display: block; position: relative; top: 75px; z-index: 10; margin: 0 auto; width: 296px;"/>');
 				$('.card').css('background-color', 'black');
-				$('.card').off('click');
-			}
+				$('.card').off('click');}
+
+
 		}
-
-
-
-
-
-
 
 	});
 
